@@ -15,11 +15,12 @@ namespace CsvEnumerableConsoleApp
 
             CreateRecords(path);
 
-            var csvRecords = new CsvEnumerable<Record>(path);
-
-            foreach (var record in csvRecords)
+            using (var csvRecords = new CsvEnumerable<Record>(path)) 
             {
-                Console.WriteLine($"Id = {record.Id}, Name = {record.Name}");
+                foreach (var record in csvRecords)
+                {
+                    Console.WriteLine($"Id = {record.Id}, Name = {record.Name}");
+                }
             }
         }
 

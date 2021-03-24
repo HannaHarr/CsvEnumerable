@@ -7,10 +7,12 @@ using System.IO;
 
 namespace CsvEnumerableLibrary
 {
-    public class CsvEnumerable<T> : IEnumerable<T>
+    public class CsvEnumerable<T> : IEnumerable<T>, IDisposable
     {
-        private StreamReader streamReader;
-        private CsvReader csvReader;
+        private readonly StreamReader streamReader;
+        private readonly CsvReader csvReader;
+
+        private bool disposedValue;
 
         public CsvEnumerable(string path)
         {
@@ -28,12 +30,32 @@ namespace CsvEnumerableLibrary
             return GetEnumerator();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    csvReader.Dispose();
+
+                    streamReader.Dispose();
+                }
+
+                streamReader.Close();
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         ~CsvEnumerable()
         {
-            csvReader.Dispose();
-
-            streamReader.Close();
-            streamReader.Dispose();
+            Dispose(false);
         }
     }
 }
