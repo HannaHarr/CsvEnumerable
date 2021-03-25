@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CsvEnumerableLibrary\CsvEnumerableLibrary.csproj" />
+    <ProjectReference Include="..\CsvEnumerableLibrary\WorkWithDatabaseLibrary.csproj" />
   </ItemGroup>
 
 </Project>

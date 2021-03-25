@@ -1,11 +1,11 @@
 ﻿using System;
-using CsvEnumerableLibrary;
 using System.Globalization;
 using System.IO;
 using CsvHelper;
+using WorkWithDatabaseLibrary;
 using System.Collections.Generic;
 
-namespace CsvEnumerableConsoleApp
+namespace WriteToDatabaseConsoleApp
 {
     class Program
     {

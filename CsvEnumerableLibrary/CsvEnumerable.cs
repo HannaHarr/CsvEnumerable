@@ -1,11 +1,11 @@
-﻿using CsvHelper;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using CsvHelper;
 
-namespace CsvEnumerableLibrary
+namespace WorkWithDatabaseLibrary
 {
     public class CsvEnumerable<T> : IEnumerable<T>, IDisposable
     {
