@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LoggingLibrary\LoggingLibrary.csproj" />
     <ProjectReference Include="..\WorkWithDatabaseLibrary\WorkWithDatabaseLibrary.csproj" />
   </ItemGroup>
 

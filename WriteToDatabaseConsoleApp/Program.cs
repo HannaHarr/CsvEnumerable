@@ -4,7 +4,9 @@ using System.IO;
 using WorkWithDatabaseLibrary;
 using System.Collections.Generic;
 using CsvHelper;
-using System.Data.SqlClient;
+using LoggingLibrary;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WriteToDatabaseConsoleApp
 {
@@ -12,34 +14,27 @@ namespace WriteToDatabaseConsoleApp
     {
         static void Main(string[] args)
         {
-            //var path = @$"{Environment.CurrentDirectory}/text.csv";
+            var recordsPath = @$"{Environment.CurrentDirectory}/text.csv";
 
-            //CreateRecords(path);
+            CreateRecords(recordsPath);
 
-            //using (var csvRecords = new CsvEnumerable<Record>(path)) 
-            //{
-            //    foreach (var record in csvRecords)
-            //    {
-            //        Console.WriteLine($"Id = {record.Id}, Name = {record.Name}");
-            //    }
-            //}
-
-            Console.WriteLine("Getting Connection ...");
-            SqlConnection conn = Class1.GetDBConnection();
-
-            try
+            using (var csvRecords = new CsvEnumerable<Record>(recordsPath))
             {
-                Console.WriteLine("Openning Connection ...");
+                var consoleLogger = new Logger();
 
-                conn.Open();
+                using (IRepository<Record> repository = LoggingProxy<IRepository<Record>>.CreateInstance(new MSSQLLocalDBRepository(), consoleLogger))
+                {
+                    var tasks = new List<Task<int>>();
 
-                Console.WriteLine("Connection successful!");
+                    foreach (var record in csvRecords)
+                    {
+                        Console.WriteLine($"Id = {record.Id}, Name = {record.Name}");
+                        tasks.Add(repository.CreateAsync(record));
+                    }
+
+                    Task.WaitAll(tasks.ToArray());
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
         }
 
         private static void CreateRecords(string filePath)
@@ -65,12 +60,6 @@ namespace WriteToDatabaseConsoleApp
                     csv.WriteRecords(records);
                 }
             }
-        }
-
-        private class Record
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
         }
     }
 }
