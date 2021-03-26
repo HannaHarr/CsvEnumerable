@@ -1,4 +1,4 @@
-# WorkWithDatabase
+# Write from csv to database
 
 ## Short Description
 Create a Console application which is able to read data from csv file and write it to the database
