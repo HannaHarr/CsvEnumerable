@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="text.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LoggingLibrary\LoggingLibrary.csproj" />
     <ProjectReference Include="..\WorkWithDatabaseLibrary\WorkWithDatabaseLibrary.csproj" />
   </ItemGroup>

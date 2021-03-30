@@ -15,6 +15,9 @@ namespace WriteToDatabaseConsoleApp
         static void Main(string[] args)
         {
             var recordsPath = @$"{Environment.CurrentDirectory}/text.csv";
+            var dataSource = @"(LocalDB)\MSSQLLocalDB";
+            var databaseFilename = @$"{Directory.GetCurrentDirectory()}\WorkDatabase.mdf";
+            var connString = $@"Data Source={dataSource};AttachDbFilename={databaseFilename};Integrated Security=True;MultipleActiveResultSets=True";
 
             CreateRecords(recordsPath);
 
@@ -22,13 +25,13 @@ namespace WriteToDatabaseConsoleApp
             {
                 var consoleLogger = new Logger();
 
-                using (IRepository<Record> repository = LoggingProxy<IRepository<Record>>.CreateInstance(new MSSQLLocalDBRepository(), consoleLogger))
+                using (IRepository<Record> repository = LoggingProxy<IRepository<Record>>.CreateInstance(new MSSQLLocalDBRepository(connString), consoleLogger))
                 {
                     var tasks = new List<Task<int>>();
 
                     foreach (var record in csvRecords)
                     {
-                        Console.WriteLine($"Id = {record.Id}, Name = {record.Name}");
+                        Console.WriteLine($"Name = {record.Name}, Number = {record.Number}");
                         tasks.Add(repository.CreateAsync(record));
                     }
 
@@ -42,15 +45,15 @@ namespace WriteToDatabaseConsoleApp
             List<Record> records = new List<Record>
             {
                 new Record {
-                    Name = "C#", Id = 0 },
+                    Name = "C#", Number = 0 },
                 new Record {
-                    Name = "Delphi", Id = 11 },
+                    Name = "Delphi", Number = 11 },
                 new Record {
-                    Name = "JavaScript", Id = 7  },
+                    Name = "JavaScript", Number = 7  },
                 new Record {
-                    Name = "Python", Id = 3 },
+                    Name = "Python", Number = 3 },
                 new Record {
-                    Name = "C++", Id = 5 }
+                    Name = "C++", Number = 5 }
             };
 
             using (var writer = new StreamWriter(filePath))
