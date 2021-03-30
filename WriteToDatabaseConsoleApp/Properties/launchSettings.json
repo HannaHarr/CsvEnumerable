@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WriteToDatabaseConsoleApp": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Task\\WorkWithDatabase\\WriteToDatabaseConsoleApp"
+    }
+  }
+}
