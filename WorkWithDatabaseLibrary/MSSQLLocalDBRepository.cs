@@ -28,7 +28,7 @@ namespace WorkWithDatabaseLibrary
             SqlParameter numberParam = new SqlParameter("@number", SqlDbType.Int, 4);
             numberParam.Value = record.Number;
 
-            SqlCommand insertCommand = new SqlCommand("INSERT INTO language (lg_name, lg_number) " +
+            SqlCommand insertCommand = new SqlCommand("INSERT INTO languages (lg_name, lg_number) " +
                                        "Values (@name, @number)", sqlConnection);
 
             insertCommand.Parameters.Add(nameParam);
